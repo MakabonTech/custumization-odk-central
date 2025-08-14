@@ -4,7 +4,7 @@ FROM tianon/postgres-upgrade:9.6-to-14
 # This file is required to encourage human validation of the process.
 # It's expected it will be provided by the sysadmin performing the upgrade.
 # Docker build will fail if this file is missing.
-COPY ./files/allow-postgres14-upgrade .
+# COPY ./files/allow-postgres14-upgrade .
 
 COPY files/postgres/upgrade-postgres.sh /usr/local/bin/
 

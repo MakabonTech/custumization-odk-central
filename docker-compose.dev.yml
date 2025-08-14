@@ -19,13 +19,13 @@ services:
     command: /bin/sh -c 'mkdir -p /var/lib/postgresql/14/data && touch /var/lib/postgresql/14/.postgres14-upgrade-successful'
   mail:
     profiles:
-      - none
+      - central
   service:
     profiles:
-      - none
+      - central
   nginx:
     profiles:
-      - none
+      - central
   pyxform:
     profiles:
       - central
