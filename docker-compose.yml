@@ -80,9 +80,10 @@ services:
     logging:
       driver: local
   nginx:
-    build:
-      context: .
-      dockerfile: nginx.dockerfile
+    image: ghcr.io/getodk/central-nginx:latest
+    # build:
+    #   # context: .
+    #   # dockerfile: nginx.dockerfile
     depends_on:
       - service
       - enketo
@@ -99,8 +100,10 @@ services:
       - ./files/nginx/odk.conf.template:/usr/share/odk/nginx/odk.conf.template:ro
       - ./files/nginx/client-config.json.template:/usr/share/odk/nginx/client-config.json.template:ro
     ports:
-      - "${HTTP_PORT:-80}:80"
-      - "${HTTPS_PORT:-443}:443"
+      # - "${HTTP_PORT:-80}:80"
+      # - "${HTTPS_PORT:-443}:443"
+      - "8383:80"
+      - "8443:443"
     healthcheck:
       test: [ "CMD-SHELL", "nc -z localhost 80 || exit 1" ]
     restart: always
