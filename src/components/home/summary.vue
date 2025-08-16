@@ -36,12 +36,12 @@ except according to the terms contained in the LICENSE file.
         <template #subheader>{{ $tc('plural.user', users.length ?? 0) }}</template>
         <template #body>{{ $t('users.body') }}</template>
       </home-summary-item>
-      <home-summary-item to="https://docs.getodk.org/central-intro/"
+      <home-summary-item to="#"
         icon="book">
         <template #header>{{ $t('common.docs') }}</template>
         <template #body>{{ $t('docs.body') }}</template>
       </home-summary-item>
-      <home-summary-item to="https://forum.getodk.org/" icon="comments-o">
+      <home-summary-item to="#" icon="comments-o">
         <template #header>{{ $t('common.forum') }}</template>
         <template #body>{{ $t('forum.body') }}</template>
       </home-summary-item>

@@ -22,7 +22,7 @@ except according to the terms contained in the LICENSE file.
             <span class="navbar-icon-bar"></span>
             <span class="navbar-icon-bar"></span>
           </button>
-          <router-link to="/" class="navbar-brand">ODK Central</router-link>
+          <router-link to="/" class="navbar-brand">CNDH-RDC</router-link>
         </div>
         <div class="collapse navbar-collapse">
           <navbar-links v-if="visiblyLoggedIn"/>
@@ -32,7 +32,6 @@ except according to the terms contained in the LICENSE file.
               {{ $t('analyticsNotice') }}
             </a>
             <ul class="nav navbar-nav">
-              <navbar-help-dropdown/>
               <navbar-locale-dropdown/>
               <navbar-actions/>
             </ul>
