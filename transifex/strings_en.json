@@ -4142,8 +4142,7 @@
     },
     "ProjectNew": {
       "title": {
-        "string": "Create Project",
-        "developer_comment": "This is the title at the top of a pop-up."
+        "string": "Create Project"
       },
       "introduction": {
         "0": {

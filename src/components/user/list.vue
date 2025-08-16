@@ -245,7 +245,7 @@ export default {
       "create": "Créer un utilisateur web"
     },
     "heading": [
-      "Les utilisateurs web ont des comptes sur ce site pour superviser et administrer les projets sur ce serveur. Les administrateurs peuvent gérer tout ce qui se trouve sur le site. Les utilisateurs n'ayant aucun rôle sur l'ensemble du site peuvent toujours être nommés gestionnaires de projet pour n'importe quel projet, à partir des paramètres de ce projet. Les administrateurs sur l'ensemble du site et certains rôles de projet peuvent utiliser leurs navigateurs pour remplir des formulaires. Pour soumettre des données à travers une application telle que {collect}, créez des utilisateurs mobiles pour chaque projet."
+      "Les utilisateurs web ont des comptes sur ce site pour superviser et administrer les projets sur ce serveur. Les administrateurs peuvent gérer tout ce qui se trouve sur le site. Les utilisateurs n'ayant aucun rôle sur l'ensemble du site peuvent toujours être nommés gestionnaires de projet pour n'importe quel projet, à partir des paramètres de ce projet. Les administrateurs sur l'ensemble du site et certains rôles de projet peuvent utiliser leurs navigateurs pour remplir des formulaires.  créez des utilisateurs mobiles pour chaque projet."
     ],
     "header": {
       "sitewideRole": "Rôle sur l'ensemble du site"
