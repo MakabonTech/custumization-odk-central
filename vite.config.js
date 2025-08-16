@@ -1,4 +1,4 @@
-/*
+/* 
 Copyright 2025 ODK Central Developers
 See the NOTICE file at the top-level directory of this distribution and at
 https://github.com/getodk/central-frontend/blob/master/NOTICE.
@@ -21,7 +21,7 @@ import { fileURLToPath } from 'url';
 // top-level await.
 const buildTarget = 'es2022';
 
-// Requests to forward to nginx
+// Requests to forward to backend (nginx / API)
 const proxyPaths = [
   '/v1',
   '/-',
@@ -29,12 +29,14 @@ const proxyPaths = [
   '/client-config.json',
   '/version.txt'
 ];
+
 const devServer = {
   port: 8989,
-  proxy: Object.fromEntries(proxyPaths.map(path => [path, 'http://localhost:8686'])),
-  // Because we proxy to nginx, which itself proxies to Backend and other
-  // things, the dev server doesn't need to allow CORS. CORS is already limited
-  // by default, but we just don't need it at all.
+  proxy: Object.fromEntries(proxyPaths.map(path => [path, {
+    target: 'https://localhost:8443',
+    changeOrigin: true,
+    secure: false // accepte les certificats auto-signés
+  }])),
   cors: false
 };
 
@@ -56,8 +58,7 @@ export default defineConfig(({ mode }) => ({
     reportCompressedSize: mode === 'production',
     cssCodeSplit: false
   },
-  // Not sure why this is needed in addition to build.target above and why it's
-  // only an issue in development. `npm run dev` doesn't work without this.
+  // Needed in dev mode for esbuild target
   optimizeDeps: mode === 'development'
     ? { esbuildOptions: { target: buildTarget } }
     : {},
