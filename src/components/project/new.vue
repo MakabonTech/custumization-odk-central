@@ -16,11 +16,7 @@ except according to the terms contained in the LICENSE file.
     <template #body>
       <div class="modal-introduction">
         <p>{{ $t('introduction[0]') }}</p>
-        <i18n-t tag="p" keypath="moreInfo.helpArticle.full">
-          <template #helpArticle>
-            <doc-link to="central-projects/">{{ $t('moreInfo.helpArticle.helpArticle') }}</doc-link>
-          </template>
-        </i18n-t>
+        <!-- Partie du message d'aide supprimée -->
       </div>
       <form @submit.prevent="submit">
         <form-group ref="name" v-model.trim="name"
@@ -92,7 +88,6 @@ export default {
 <i18n lang="json5">
 {
   "en": {
-    // This is the title at the top of a pop-up.
     "title": "Create Project",
     "introduction": [
       "Projects group Forms and App Users together to make them easier to organize and manage, both on this website and on your data collection device."
