@@ -1,17 +1,32 @@
+# Copyright 2017 ODK Central Developers
+# See the NOTICE file at the top-level directory of this distribution and at
+# https://github.com/getodk/central-frontend/blob/master/NOTICE.
+#
+# This file is part of ODK Central. It is subject to the license terms in
+# the LICENSE file found in the top-level directory of this distribution and at
+# https://www.apache.org/licenses/LICENSE-2.0. No part of ODK Central,
+# including this file, may be copied, modified, propagated, or distributed
+# except according to the terms contained in the LICENSE file.
+
 .DS_Store
-*.swp
-*.swo
-/.env
-/docker-compose.override.yml
-/version.txt
+node_modules
+npm-debug.log*
+/dist
+*.local
 
-/files/allow-postgres14-upgrade
-/files/postgres14/upgrade/*
-!/files/postgres14/upgrade/check-available-space
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-/files/local/customssl/*.pem
+/.nginx/*
+!/.nginx/.gitkeep
 
-/files/mail/rsa.private
-/files/mail/rsa.public
-
-/files/dkim/*
+/.eslintcache
+public/index.html
+test-results
+playwright-report
