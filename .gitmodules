@@ -1,6 +1,9 @@
-[submodule "server"]
-	path = server
-	url = https://github.com/getodk/central-backend.git
+[submodule "central"]
+    path = central
+    url = https://github.com/MakabonTech/custumization-odk-central.git
 [submodule "client"]
-	path = client
-	url = https://github.com/getodk/central-frontend.git
+    path = client
+    url = https://github.com/MakabonTech/custumization-odk-central.git
+[submodule "server"]
+    path = server
+    url = https://github.com/MakabonTech/custumization-odk-central.git
