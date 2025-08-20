@@ -518,7 +518,7 @@ export default {
             "Les soumissions de test des ébauches de formulaires existantes seront définitivement supprimées."
           ],
           {
-            "full": "Vous pouvez en apprendre plus à propos du chiffrement en cliquant {here}. Si cela vous semble être utile, cliquez sur Suivant pour continuer.",
+            "full": "Si cela vous semble être utile, cliquez sur Suivant pour continuer.",
             "here": "ici"
           }
         ]

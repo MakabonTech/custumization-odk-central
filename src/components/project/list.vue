@@ -32,11 +32,6 @@ except according to the terms contained in the LICENSE file.
           class="empty-table-message">
           <template v-if="currentUser.can('project.create')">
             {{ $t('emptyTable.canCreate') }}<sentence-separator/>
-            <i18n-t keypath="moreInfo.clickHere.full">
-              <template #clickHere>
-                <doc-link to="central-projects/">{{ $t('moreInfo.clickHere.clickHere') }}</doc-link>
-              </template>
-            </i18n-t>
           </template>
           <template v-else>{{ $t('emptyTable.cannotCreate') }}</template>
         </p>

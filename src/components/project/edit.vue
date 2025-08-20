@@ -143,7 +143,7 @@ const submit = () => {
     "field": {
       "name": "Nom du projet",
       "description": "Description du projet",
-      "note": "Ajoutez des notes, des liens, des instructions ou autres ressources ici."
+      "note": "Ajoutez des notes, des liens, des instructions ou autres ressources ici  OUI."
     },
     "alert": {
       "success": "Paramètres du projet enregistrés."
