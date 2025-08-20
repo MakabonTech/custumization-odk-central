@@ -1,2 +1,48 @@
+# Node.js
 node_modules
 npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Build outputs
+dist
+build
+.cache
+.next
+out
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Env files (elles doivent être injectées via docker-compose, pas copiées dans l'image)
+.env
+.env.local
+.env.*.local
+
+# Git
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+docker-compose*.yml
+
+# Logs
+*.log
+logs
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage / tests
+coverage
+*.lcov
+__tests__
+__mocks__
+
+# IDE / Editor
+.vscode
+.idea
+*.swp
+*.swo
