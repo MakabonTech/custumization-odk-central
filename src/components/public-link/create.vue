@@ -27,7 +27,6 @@ except according to the terms contained in the LICENSE file.
           <p id="public-link-create-once-help" class="help-block">
             <span>{{ $t('onceHelp') }}</span>
             <sentence-separator/>
-            <doc-link to="central-submissions/#public-access-links">{{ $t('moreInfo.learnMore') }}</doc-link>
           </p>
         </div>
         <div class="modal-actions">

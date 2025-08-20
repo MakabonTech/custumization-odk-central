@@ -25,7 +25,6 @@ except according to the terms contained in the LICENSE file.
               <p>
                 <span>{{ $t('encryption.body.unencrypted[0]') }}</span>
                 <sentence-separator/>
-                <doc-link to="central-encryption/">{{ $t('moreInfo.learnMore') }}</doc-link>
               </p>
               <p>
                 <button id="project-settings-enable-encryption-button"
@@ -43,7 +42,6 @@ except according to the terms contained in the LICENSE file.
                   </template>
                 </i18n-t>
                 <sentence-separator/>
-                <doc-link to="central-encryption/">{{ $t('moreInfo.learnMore') }}</doc-link>
               </p>
               <p>{{ $t('encryption.body.encrypted[1]') }}</p>
             </template>

@@ -1,4 +1,4 @@
-/*
+/* 
 Copyright 2017 ODK Central Developers
 See the NOTICE file at the top-level directory of this distribution and at
 https://github.com/getodk/central-frontend/blob/master/NOTICE.
@@ -11,8 +11,8 @@ except according to the terms contained in the LICENSE file.
 */
 
 // Core
-$color-accent-primary: #bd006b;
-$color-accent-secondary: #8d0050;
+$color-accent-primary: #00bfff; // Bleu ciel principal
+$color-accent-secondary: #009acd; // Bleu ciel foncé
 $color-page-background: #f7f7f7;
 
 // Media query breakpoints - copied from bootstrap
@@ -100,8 +100,6 @@ $color-subpanel-border-strong: #c3c3c3;
 
 // Easing
 $ease-extreme-out: cubic-bezier(.05, .9, 0, 1);
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // COMPONENTS

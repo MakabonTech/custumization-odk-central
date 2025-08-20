@@ -34,11 +34,7 @@ are Project Manager, Project Viewer, and Data Collector. -->
           </template>
         </i18n-t>
       </ul>
-      <i18n-t tag="p" keypath="moreInfo.clickHere.full">
-        <template #clickHere>
-          <doc-link to="central-projects/#managing-project-roles">{{ $t('moreInfo.clickHere.clickHere') }}</doc-link>
-        </template>
-      </i18n-t>
+  
     </div>
     <form id="project-user-list-search-form" class="form-inline"
       @submit.prevent>

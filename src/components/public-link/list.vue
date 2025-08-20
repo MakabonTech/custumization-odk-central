@@ -226,7 +226,7 @@ export default {
         "state": "l'état"
       },
       {
-        "full": "Les liens d'accès public sont conçus pour l'auto-évaluation. Si vous travaillez avec des collecteurs de données qui doivent soumettre le même formulaire plusieurs fois, {clickHere} pour d'autres méthodes d'envoi de données.",
+        "full": "Les liens d'accès public sont conçus pour l'auto-évaluation. Si vous travaillez avec des collecteurs de données qui doivent soumettre le même formulaire plusieurs fois, Pour d'autres méthodes d'envoi de données.",
         "clickHere": "cliquez ici"
       }
     ],
