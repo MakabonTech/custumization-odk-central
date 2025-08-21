@@ -1,0 +1,1 @@
+import e from"./edit-muAA_UA8.js";import{u as r,g as o,o as s,h as a}from"./index-BJJ6YbMy.js";import"./head-DeISpnNl.js";import"./request--gXHIWga.js";const d=Object.assign({name:"AccountEdit"},{__name:"edit",setup(n){const{currentUser:t}=r();return(c,i)=>(s(),o(e,{id:a(t).id.toString()},null,8,["id"]))}});export{d as default};

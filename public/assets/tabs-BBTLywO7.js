@@ -1,0 +1,1 @@
+import{a7 as a}from"./index-BJJ6YbMy.js";const i=(t=void 0)=>{const e=a(),r=s=>{if(s.startsWith("/"))return s;if(t==null)throw new Error("pathPrefix required");return`${t}${s!==""?"/":""}${s}`};return{tabPath:r,tabClass:s=>({active:e.path===r(s)})}};export{i as u};

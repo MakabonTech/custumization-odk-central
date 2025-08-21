@@ -1,0 +1,1 @@
+import{ai as c}from"./index-BJJ6YbMy.js";const e=new Map().set(null,"icon-dot-circle-o").set("hasIssues","icon-comments").set("edited","icon-pencil").set("approved","icon-check-circle").set("rejected","icon-times-circle"),s=[...e.keys()];e.set("received",e.get(null));const o=c({reviewStates:s,reviewStateIcon:t=>e.get(t)});export{o as u};

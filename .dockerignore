@@ -1,8 +1,14 @@
-# Node.js
+########################################
+# Node.js / Frontend
+########################################
 node_modules
 npm-debug.log
+yarn-debug.log
 yarn-error.log
 pnpm-debug.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # Build outputs
 dist
@@ -10,39 +16,93 @@ build
 .cache
 .next
 out
+tmp
+temp
 
-# System files
+########################################
+# System files / OS
+########################################
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Env files (elles doivent être injectées via docker-compose, pas copiées dans l'image)
+########################################
+# Env files (toujours injectées via docker-compose)
+########################################
 .env
 .env.local
+.env.development
+.env.production
+.env.test
 .env.*.local
 
+########################################
 # Git
+########################################
+.git
 .gitignore
 .gitattributes
+.gitmodules
 
+########################################
 # Docker
+########################################
 Dockerfile
-docker-compose*.yml
+Dockerfile.*
+docker-compose.yml
+docker-compose.*.yml
+.dockerignore
 
-# Logs
+########################################
+# Logs / PIDs
+########################################
 *.log
 logs
 *.pid
 *.seed
 *.pid.lock
 
-# Coverage / tests
+########################################
+# Coverage / Tests
+########################################
 coverage
 *.lcov
 __tests__
 __mocks__
+jest.config.js
+jest.config.ts
 
-# IDE / Editor
+########################################
+# IDE / Editors
+########################################
 .vscode
 .idea
 *.swp
 *.swo
+*.iml
+
+########################################
+# Binary files / Build artifacts
+########################################
+bin
+*.exe
+*.dll
+*.so
+*.dylib
+*.pyc
+*.pyo
+*.pyd
+*.whl
+
+########################################
+# Miscellaneous
+########################################
+*.tar
+*.gz
+*.zip
+*.7z
+*.bak
+*.tmp
+*.swp
+*.swo
+*.orig
