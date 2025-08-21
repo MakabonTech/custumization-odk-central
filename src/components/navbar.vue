@@ -178,7 +178,7 @@ $border-height: 3px;
         box-shadow: 0 0 6px transparentize($color-accent-secondary, 0.7) inset;
 
         &, &:hover, &:focus {
-          background-color: #b40066;
+          background-color: rgb(0, 114, 180);
           border-top-color: #fff;
           color: #fff;
         }
