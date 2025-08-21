@@ -1,0 +1,1 @@
+import{S as s,c as a,p as n,h as t,o,t as r}from"./index-BJJ6YbMy.js";const c={key:0},u={__name:"sentence-separator",setup(p){const{sentenceSeparator:e}=s();return(_,m)=>t(e)!==""?(o(),a("span",c,r(t(e)),1)):n("",!0)}};export{u as _};
