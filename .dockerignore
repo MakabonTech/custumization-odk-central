@@ -1,0 +1,108 @@
+########################################
+# Node.js / Frontend
+########################################
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+.cache
+.next
+out
+tmp
+temp
+
+########################################
+# System files / OS
+########################################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+########################################
+# Env files (toujours injectées via docker-compose)
+########################################
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+
+########################################
+# Git
+########################################
+.git
+.gitignore
+.gitattributes
+.gitmodules
+
+########################################
+# Docker
+########################################
+Dockerfile
+Dockerfile.*
+docker-compose.yml
+docker-compose.*.yml
+.dockerignore
+
+########################################
+# Logs / PIDs
+########################################
+*.log
+logs
+*.pid
+*.seed
+*.pid.lock
+
+########################################
+# Coverage / Tests
+########################################
+coverage
+*.lcov
+__tests__
+__mocks__
+jest.config.js
+jest.config.ts
+
+########################################
+# IDE / Editors
+########################################
+.vscode
+.idea
+*.swp
+*.swo
+*.iml
+
+########################################
+# Binary files / Build artifacts
+########################################
+bin
+*.exe
+*.dll
+*.so
+*.dylib
+*.pyc
+*.pyo
+*.pyd
+*.whl
+
+########################################
+# Miscellaneous
+########################################
+*.tar
+*.gz
+*.zip
+*.7z
+*.bak
+*.tmp
+*.swp
+*.swo
+*.orig

@@ -1,0 +1,1 @@
+import{u as e,aw as c}from"./index-BJJ6YbMy.js";const r=()=>{const{project:s,createResource:a}=e(),t=a("datasets");return c(()=>{s.dataExists&&t.dataExists&&s.datasets!==t.length&&(s.datasets=t.length)}),t};export{r as u};

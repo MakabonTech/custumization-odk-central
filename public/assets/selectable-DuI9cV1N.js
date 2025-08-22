@@ -1,0 +1,1 @@
+import{J as t,c,o,R as n}from"./index-BJJ6YbMy.js";const _={__name:"selectable",setup(a){const l=t(null),s=()=>{const e=getSelection();e.isCollapsed&&e.selectAllChildren(l.value)};return(e,r)=>(o(),c("div",{ref_key:"el",ref:l,class:"selectable",onClick:s},[n(e.$slots,"default")],512))}};export{_};
