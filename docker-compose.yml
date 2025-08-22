@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   postgres14:
     build:
@@ -10,9 +12,8 @@ services:
       POSTGRES_PASSWORD: odk
       POSTGRES_DB: odk
     restart: always
+
   postgres:
-    # This service upgrades from postgres 9.6 to 14.
-    # The legacy name must be maintained to allow access to the anonymous volume.
     build:
       context: .
       dockerfile: postgres-upgrade.dockerfile
@@ -25,6 +26,7 @@ services:
       POSTGRES_INITDB_ARGS: -U odk
       POSTGRES_PASSWORD: odk
       POSTGRES_DB: odk
+
   mail:
     image: "ixdotai/smtp:v0.5.4"
     volumes:
@@ -33,6 +35,7 @@ services:
       - MAILNAME=${DOMAIN}
       - DKIM_KEY_PATH=/etc/exim4/dkim.key.temp
     restart: always
+
   service:
     build:
       context: .
@@ -79,11 +82,11 @@ services:
     restart: always
     logging:
       driver: local
+
   nginx:
-    image: ghcr.io/getodk/central-nginx:latest
-    # build:
-    #   # context: .
-    #   # dockerfile: nginx.dockerfile
+    build:
+      context: .
+      dockerfile: nginx-custom.dockerfile
     depends_on:
       - service
       - enketo
@@ -100,8 +103,6 @@ services:
       - ./files/nginx/odk.conf.template:/usr/share/odk/nginx/odk.conf.template:ro
       - ./files/nginx/client-config.json.template:/usr/share/odk/nginx/client-config.json.template:ro
     ports:
-      # - "${HTTP_PORT:-80}:80"
-      # - "${HTTPS_PORT:-443}:443"
       - "8383:80"
       - "8443:443"
     healthcheck:
@@ -111,9 +112,11 @@ services:
       driver: local
       options:
         max-file: "30"
+
   pyxform:
     image: 'ghcr.io/getodk/pyxform-http:v3.1.0'
     restart: always
+
   secrets:
     volumes:
       - secrets:/etc/secrets
@@ -121,6 +124,7 @@ services:
       context: .
       dockerfile: secrets.dockerfile
     command: './generate-secrets.sh'
+
   enketo:
     volumes:
       - secrets:/etc/secrets
@@ -136,6 +140,7 @@ services:
       - DOMAIN=${DOMAIN}
       - SUPPORT_EMAIL=${SYSADMIN_EMAIL}
       - HTTPS_PORT=${HTTPS_PORT:-443}
+
   enketo_redis_main:
     image: redis:7.4.2
     volumes:
@@ -145,6 +150,7 @@ services:
       - redis-server
       - /usr/local/etc/redis/redis.conf
     restart: always
+
   enketo_redis_cache:
     image: redis:7.4.2
     volumes:
@@ -154,6 +160,7 @@ services:
       - redis-server
       - /usr/local/etc/redis/redis.conf
     restart: always
+
 volumes:
   secrets:
   transfer:
