@@ -1,0 +1,1 @@
+import{G as r,af as a,ae as m,an as v}from"./index-BJJ6YbMy.js";const c=(e,n,l)=>{const o=r("hoverCard");let t;a(e,"mouseenter",()=>{t=setTimeout(()=>{o.show(e.value,n,l()),t=null},350)});const s=(u=e.value)=>{o.anchor===u&&o.hide(),t!=null&&(clearTimeout(t),t=null)};a(e,"mouseleave",()=>{s()}),m(e,(u,i)=>{s(i)}),v(s)};export{c as u};
