@@ -15,3 +15,90 @@
 /files/mail/rsa.public
 
 /files/dkim/*
+
+### Added common ignore patterns ###
+# Node dependencies & build outputs
+node_modules/
+client/node_modules/
+server/node_modules/
+client/dist/
+dist/
+coverage/
+.nyc_output/
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Cache & temp
+.cache/
+.eslintcache
+.sass-cache/
+tmp/
+temp/
+**/*.pid
+
+# Test & reports
+reports/
+test-results/
+playwright-report/
+cypress/
+.cypress/
+.jest/
+.jest-cache/
+.jest-test-results.json
+
+# Env variants (keep base .env already listed above)
+.env.local
+.env.*.local
+.env.backup
+
+# Editor/IDE
+.vscode/
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+Thumbs.db
+ehthumbs.db
+.Spotlight-V100
+.Trashes
+*.DS_Store?
+
+# Archive / backup artifacts
+*.tgz
+*.tar
+*.tar.gz
+*.zip
+*.bak
+*.orig
+*.rej
+*.patch
+backup-pre-purge.tgz
+backup-working-tree.tgz
+client_backup/
+
+# Misc generated
+version.txt
+*.coverage
+*.lcov
+
+# Python (in case of scripts)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pytest_cache/
+
+# Docker layering leftovers
+*.pid.lock
+
+# Git merge artifacts
+*.merge_file_* 
