@@ -34,6 +34,7 @@ jobs:
           port: 22
           timeout: 30s
           command_timeout: 10m
+          envs: REPO_URL,DEPLOY_BRANCH,APP_DIR,DOMAIN
           script: |
             set -euo pipefail
 
@@ -46,44 +47,19 @@ jobs:
             echo "[deploy] Repo:$REPO_URL Branch:$DEPLOY_BRANCH Dir:$APP_DIR Domain:${DOMAIN:-unset}"
             if [ -z "${DOMAIN:-}" ]; then echo "[warn] DOMAIN secret unset (health check sera ignoré)"; fi
 
-            # --- prerequisites (git + docker / compose) ---
-            HAVE_SUDO=0; if sudo -n true 2>/dev/null; then HAVE_SUDO=1; fi
-            if ! command -v git >/dev/null 2>&1; then
-              if [ "$HAVE_SUDO" = 1 ]; then
-                sudo apt-get update -y && sudo apt-get install -y git
-              else
-                echo "[deploy] ERREUR: git absent et sudo non passwordless" >&2; exit 1
-              fi
-            fi
-
-            COMPOSE_CMD="docker compose"
-            if command -v docker >/dev/null 2>&1; then
-              if docker compose version >/dev/null 2>&1; then
-                COMPOSE_CMD="docker compose"
-              elif command -v docker-compose >/dev/null 2>&1; then
-                COMPOSE_CMD="docker-compose"
-              else
-                echo "[deploy] docker présent mais compose absent" >&2; exit 1
-              fi
-            else
-              if [ "$HAVE_SUDO" = 1 ]; then
-                if ! command -v curl >/dev/null 2>&1; then sudo apt-get update -y && sudo apt-get install -y curl; fi
-                curl -fsSL https://get.docker.com | sh
-                sudo systemctl enable --now docker || true
-              else
-                echo "[deploy] ERREUR: docker absent et sudo non passwordless" >&2; exit 1
-              fi
-            fi
-
+            # --- prerequisites (déjà installés sur le serveur) ---
+            if ! command -v git >/dev/null 2>&1; then echo "[deploy] ERREUR: git non trouvé" >&2; exit 1; fi
+            if command -v docker >/dev/null 2>&1; then echo "[deploy] docker OK $(docker --version 2>/dev/null || true)"; else echo "[deploy] ERREUR: docker non trouvé" >&2; exit 1; fi
+            if docker compose version >/dev/null 2>&1; then COMPOSE_CMD="docker compose"; elif command -v docker-compose >/dev/null 2>&1; then COMPOSE_CMD="docker-compose"; else echo "[deploy] ERREUR: compose non trouvé" >&2; exit 1; fi
             echo "[deploy] compose cmd: $COMPOSE_CMD"
 
             # --- clone or update repo ---
             if [ ! -d "$APP_DIR/.git" ]; then
               echo "[deploy] initial clone"
-              sudo mkdir -p "$APP_DIR" && sudo chown $USER:$USER "$APP_DIR"
+              mkdir -p "$APP_DIR" 2>/dev/null || { echo "[deploy] ERREUR: impossible de créer $APP_DIR" >&2; exit 1; }
               git clone --depth=1 --branch "$DEPLOY_BRANCH" "$REPO_URL" "$APP_DIR"
             fi
-            cd "$APP_DIR"
+            cd "$APP_DIR" || { echo "[deploy] ERREUR: cd $APP_DIR" >&2; exit 1; }
             git fetch origin "$DEPLOY_BRANCH" --depth=1
             git checkout "$DEPLOY_BRANCH"
             git reset --hard "origin/$DEPLOY_BRANCH"
