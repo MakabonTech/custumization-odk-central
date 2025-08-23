@@ -3,14 +3,11 @@ name: deploy
 on:
   push:
     branches:
-      - develop            # adapter si autre branche de déploiement
+      - develop  # adapter si autre branche de déploiement
 
 concurrency:
   group: deploy-production
   cancel-in-progress: true
-
-permissions:
-  contents: read
 
 jobs:
   deploy:
@@ -34,25 +31,51 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
-          # transmettre des variables explicites dans l'environnement distant
-          envs: REPO_URL,DEPLOY_BRANCH,APP_DIR,DOMAIN
+          port: 22
+          timeout: 30s
+          command_timeout: 10m
           script: |
             set -euo pipefail
-            # sécurise (copie) les variables (évite 'unbound variable' si non passées)
+
+            # sécurise les variables
             REPO_URL=${REPO_URL:-""}
             DEPLOY_BRANCH=${DEPLOY_BRANCH:-"develop"}
             APP_DIR=${APP_DIR:-"/opt/central"}
             DOMAIN=${DOMAIN:-""}
+
             echo "[deploy] Repo:$REPO_URL Branch:$DEPLOY_BRANCH Dir:$APP_DIR Domain:${DOMAIN:-unset}"
             if [ -z "${DOMAIN:-}" ]; then echo "[warn] DOMAIN secret unset (health check sera ignoré)"; fi
 
-            # --- prerequisites (git + docker) ---
-            if ! command -v git >/dev/null 2>&1; then sudo apt-get update -y && sudo apt-get install -y git; fi
-            if ! docker compose version >/dev/null 2>&1; then
-              if ! command -v curl >/dev/null 2>&1; then sudo apt-get install -y curl; fi
-              curl -fsSL https://get.docker.com | sh
+            # --- prerequisites (git + docker / compose) ---
+            HAVE_SUDO=0; if sudo -n true 2>/dev/null; then HAVE_SUDO=1; fi
+            if ! command -v git >/dev/null 2>&1; then
+              if [ "$HAVE_SUDO" = 1 ]; then
+                sudo apt-get update -y && sudo apt-get install -y git
+              else
+                echo "[deploy] ERREUR: git absent et sudo non passwordless" >&2; exit 1
+              fi
             fi
-            sudo systemctl enable --now docker || true
+
+            COMPOSE_CMD="docker compose"
+            if command -v docker >/dev/null 2>&1; then
+              if docker compose version >/dev/null 2>&1; then
+                COMPOSE_CMD="docker compose"
+              elif command -v docker-compose >/dev/null 2>&1; then
+                COMPOSE_CMD="docker-compose"
+              else
+                echo "[deploy] docker présent mais compose absent" >&2; exit 1
+              fi
+            else
+              if [ "$HAVE_SUDO" = 1 ]; then
+                if ! command -v curl >/dev/null 2>&1; then sudo apt-get update -y && sudo apt-get install -y curl; fi
+                curl -fsSL https://get.docker.com | sh
+                sudo systemctl enable --now docker || true
+              else
+                echo "[deploy] ERREUR: docker absent et sudo non passwordless" >&2; exit 1
+              fi
+            fi
+
+            echo "[deploy] compose cmd: $COMPOSE_CMD"
 
             # --- clone or update repo ---
             if [ ! -d "$APP_DIR/.git" ]; then
@@ -73,12 +96,12 @@ jobs:
             if [ ! -f docker-compose.yml ] && [ -f docker-compose.yaml ]; then ln -s docker-compose.yaml docker-compose.yml; fi
             if [ ! -f docker-compose.yml ]; then echo "[deploy] ERREUR: docker-compose.yml manquant" >&2; exit 1; fi
             echo "[deploy] Pull/build"
-            docker compose pull || true
-            docker compose build --pull
+            $COMPOSE_CMD pull || true
+            $COMPOSE_CMD build --pull
             echo "[deploy] Up"
-            docker compose up -d --remove-orphans
+            $COMPOSE_CMD up -d --remove-orphans
             docker image prune -f || true
-            docker compose ps
+            $COMPOSE_CMD ps
 
             # --- health check ---
             DOMAIN_VAL=$(grep '^DOMAIN=' .env | cut -d'=' -f2- || true)
@@ -93,7 +116,7 @@ jobs:
               echo "[deploy] attempt $i ko -> wait"; sleep 5
             done
             echo "[deploy] FAIL health" >&2
-            docker compose logs --tail=150 || true
+            $COMPOSE_CMD logs --tail=150 || true
             exit 1
 
       - name: Summary
