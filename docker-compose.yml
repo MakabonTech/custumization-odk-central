@@ -84,9 +84,8 @@ services:
       driver: local
 
   nginx:
-    build:
-      context: .
-      dockerfile: nginx-custom.dockerfile
+    # frontend désactivé: on utilise directement l'image officielle sans rebuild
+    image: ghcr.io/getodk/central-nginx:latest
     depends_on:
       - service
       - enketo
