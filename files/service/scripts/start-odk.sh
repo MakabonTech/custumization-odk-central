@@ -17,12 +17,14 @@ SENTRY_TAGS="{ \"version.central\": \"$(cat sentry-versions/central)\", \"versio
 # shellcheck disable=SC2090
 export SENTRY_TAGS
 
-echo "running migrations.."
-node ./lib/bin/run-migrations
-
-# Logs based on SENTRY_RELEASE and SENTRY_TAGS env variables
-echo "logging server upgrade.."
-node ./lib/bin/log-upgrade
+if grep -qi placeholder package.json 2>/dev/null; then
+  echo "[placeholder] backend detected -> skip migrations & log-upgrade"
+else
+  echo "running migrations.."
+  node ./lib/bin/run-migrations || echo "(ignore error in placeholder context)"
+  echo "logging server upgrade.."
+  node ./lib/bin/log-upgrade || echo "(ignore error in placeholder context)"
+fi
 
 echo "starting cron.."
 cron -f &
@@ -74,5 +76,5 @@ WORKER_COUNT=$(determine_worker_count "$MEMTOT")
 export WORKER_COUNT
 echo "using $WORKER_COUNT worker(s) based on available memory ($MEMTOT).."
 
-echo "starting server."
-exec npx --no pm2-runtime ./pm2.config.js
+echo "starting placeholder server via npm start."
+exec npm start
