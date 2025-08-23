@@ -34,8 +34,15 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
+          # transmettre des variables explicites dans l'environnement distant
+          envs: REPO_URL,DEPLOY_BRANCH,APP_DIR,DOMAIN
           script: |
             set -euo pipefail
+            # sécurise (copie) les variables (évite 'unbound variable' si non passées)
+            REPO_URL=${REPO_URL:-""}
+            DEPLOY_BRANCH=${DEPLOY_BRANCH:-"develop"}
+            APP_DIR=${APP_DIR:-"/opt/central"}
+            DOMAIN=${DOMAIN:-""}
             echo "[deploy] Repo:$REPO_URL Branch:$DEPLOY_BRANCH Dir:$APP_DIR Domain:${DOMAIN:-unset}"
             if [ -z "${DOMAIN:-}" ]; then echo "[warn] DOMAIN secret unset (health check sera ignoré)"; fi
 
