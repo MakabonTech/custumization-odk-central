@@ -114,11 +114,11 @@ COPY server/ ./
 # Placeholder: fournir scripts attendus par start-odk.sh si backend réel absent
 RUN mkdir -p lib/bin \
  && if [ ! -f lib/bin/run-migrations ]; then \
-            printf '#!/bin/sh\necho "[placeholder] skip run-migrations (backend absent)"\n' > lib/bin/run-migrations; \
+            printf '#!/usr/bin/env node\nconsole.log("[placeholder] skip run-migrations (backend absent)");\n' > lib/bin/run-migrations; \
             chmod +x lib/bin/run-migrations; \
         fi \
  && if [ ! -f lib/bin/log-upgrade ]; then \
-            printf '#!/bin/sh\necho "[placeholder] skip log-upgrade (backend absent)"\n' > lib/bin/log-upgrade; \
+            printf '#!/usr/bin/env node\nconsole.log("[placeholder] skip log-upgrade (backend absent)");\n' > lib/bin/log-upgrade; \
             chmod +x lib/bin/log-upgrade; \
         fi
 
