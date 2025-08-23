@@ -35,7 +35,7 @@ RUN apt-get update \
 # Copier uniquement les fichiers essentiels
 COPY package.json ./
 COPY server/package.json server/package.json
-COPY client/package.json client/package.json
+# (client désactivé temporairement: package.json manquant)
 
 # Si le dossier .git existe → on le copie
 ONBUILD COPY .git/ .git/
@@ -51,39 +51,8 @@ WORKDIR /client
 RUN git describe --tags --dirty > /tmp/sentry-versions/client 2>/dev/null || echo "v0.0.0" > /tmp/sentry-versions/client
 
 
-# ==============================
-# Étape 3 : Build du frontend
-# ==============================
-FROM node:${node_version}-slim AS client-builder
-
-WORKDIR /client
-
-# Installer certificats et outils réseau
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        ca-certificates \
-        curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && update-ca-certificates
-
-# Copier fichiers nécessaires
-COPY client/package*.json ./
-
-# Optimiser npm et installer les dépendances
-RUN rm -rf node_modules package-lock.json \
- && npm config set registry https://registry.npmjs.org/ \
- && npm config set strict-ssl false \
- && npm config set fetch-retries 5 \
- && npm config set fetch-retry-factor 2 \
- && npm config set fetch-retry-mintimeout 20000 \
- && npm config set fetch-retry-maxtimeout 120000 \
- && npm install --legacy-peer-deps --no-audit --fund=false --update-notifier=false
-
-# Copier le reste du code client
-COPY client/ ./
-
-# Build du frontend
-RUN npm run build
+## Étape 3 (frontend) désactivée temporairement : client/package.json absent.
+## Pour réactiver: restaurer client/package.json + sources puis réintroduire stage client-builder.
 
 
 # ==============================
@@ -133,8 +102,8 @@ COPY files/service/odk-cmd /usr/bin/
 # Copier versions sentry
 COPY --from=intermediate /tmp/sentry-versions/ ./sentry-versions
 
-# Copier frontend compilé
-COPY --from=client-builder /client/dist ./client/dist
+# Frontend désactivé (pas de copie de dist). Ajouter quand client restauré:
+# COPY --from=client-builder /client/dist ./client/dist
 
 # Exposer le port principal
 EXPOSE 8383
