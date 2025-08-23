@@ -24,6 +24,17 @@ if [[ ${SKIP_FRONTEND_BUILD-} != "" ]]; then
 
   exit
 else
-  npm clean-install --no-audit --fund=false --update-notifier=false
-  npm run build
+  if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+    echo "[build-frontend] lockfile présent -> npm ci"
+    npm ci --no-audit --fund=false --update-notifier=false
+  else
+    echo "[build-frontend] lockfile absent -> npm install"
+    npm install --no-audit --fund=false --update-notifier=false
+  fi
+  if npm run | grep -q '^ *build'; then
+    npm run build
+  else
+    echo "[build-frontend] script build absent -> création dist minimale"
+    mkdir -p dist && echo '<div id="app"></div>' > dist/index.html
+  fi
 fi

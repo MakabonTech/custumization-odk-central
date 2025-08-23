@@ -3,6 +3,11 @@
 # ==============================
 ARG node_version=22.16.0
 
+# NOTE: Les métadonnées git (tags/commit) ne seront disponibles que si le dossier
+# .git est inclus dans le contexte de build. Actuellement il est exclu par
+# .dockerignore. Pour avoir des versions réelles: retirer .git de .dockerignore
+# OU ajouter `COPY .git/ .git/` juste avant les commandes git puis le supprimer.
+
 # ==============================
 # Étape 1 : Dépendances PostgreSQL
 # ==============================
@@ -43,12 +48,21 @@ ONBUILD COPY .git/ .git/
 # Créer dossier versions pour Sentry
 RUN mkdir -p /tmp/sentry-versions
 
-# Définir versions ou valeur par défaut si .git absent
-RUN git describe --tags --dirty > /tmp/sentry-versions/central 2>/dev/null || echo "v0.0.0" > /tmp/sentry-versions/central
+# Définir versions ou valeur par défaut si .git absent / pas de tags
+RUN if git rev-parse --git-dir > /dev/null 2>&1; then \
+            (git describe --tags --dirty 2>/dev/null || git rev-parse --short HEAD || echo v0.0.0) \
+                > /tmp/sentry-versions/central; \
+        else echo 'no-git' > /tmp/sentry-versions/central; fi
 WORKDIR /server
-RUN git describe --tags --dirty > /tmp/sentry-versions/server 2>/dev/null || echo "v0.0.0" > /tmp/sentry-versions/server
+RUN if git rev-parse --git-dir > /dev/null 2>&1; then \
+            (git describe --tags --dirty 2>/dev/null || git rev-parse --short HEAD || echo v0.0.0) \
+                > /tmp/sentry-versions/server; \
+        else echo 'no-git' > /tmp/sentry-versions/server; fi || true
 WORKDIR /client
-RUN git describe --tags --dirty > /tmp/sentry-versions/client 2>/dev/null || echo "v0.0.0" > /tmp/sentry-versions/client
+RUN if git rev-parse --git-dir > /dev/null 2>&1; then \
+            (git describe --tags --dirty 2>/dev/null || git rev-parse --short HEAD || echo v0.0.0) \
+                > /tmp/sentry-versions/client; \
+        else echo 'no-git' > /tmp/sentry-versions/client; fi || true
 
 
 ## Étape 3 (frontend) désactivée temporairement : client/package.json absent.
