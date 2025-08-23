@@ -28,7 +28,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
+          username: rhenard
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
           port: 22
@@ -53,6 +53,20 @@ jobs:
             if docker compose version >/dev/null 2>&1; then COMPOSE_CMD="docker compose"; elif command -v docker-compose >/dev/null 2>&1; then COMPOSE_CMD="docker-compose"; else echo "[deploy] ERREUR: compose non trouvé" >&2; exit 1; fi
             echo "[deploy] compose cmd: $COMPOSE_CMD"
 
+            # --- docker permission / sudo fallback ---
+            DOCKER_SUDO=""
+            # test simple accès API
+            if ! $COMPOSE_CMD version >/dev/null 2>&1; then
+              # peut-être un problème de permissions socket -> essayer sudo -n
+              if sudo -n $COMPOSE_CMD version >/dev/null 2>&1; then
+                DOCKER_SUDO="sudo -n"
+                echo "[deploy] utilise sudo pour docker/compose (permissions socket)"
+              else
+                echo "[deploy] ERREUR: accès docker refusé (ajoute l'utilisateur au groupe docker: sudo usermod -aG docker $USER && reconnect)" >&2
+                exit 1
+              fi
+            fi
+
             # --- clone or update repo ---
             if [ ! -d "$APP_DIR/.git" ]; then
               echo "[deploy] initial clone"
@@ -72,12 +86,12 @@ jobs:
             if [ ! -f docker-compose.yml ] && [ -f docker-compose.yaml ]; then ln -s docker-compose.yaml docker-compose.yml; fi
             if [ ! -f docker-compose.yml ]; then echo "[deploy] ERREUR: docker-compose.yml manquant" >&2; exit 1; fi
             echo "[deploy] Pull/build"
-            $COMPOSE_CMD pull || true
-            $COMPOSE_CMD build --pull
+            $DOCKER_SUDO $COMPOSE_CMD pull || true
+            $DOCKER_SUDO $COMPOSE_CMD build --pull
             echo "[deploy] Up"
-            $COMPOSE_CMD up -d --remove-orphans
-            docker image prune -f || true
-            $COMPOSE_CMD ps
+            $DOCKER_SUDO $COMPOSE_CMD up -d --remove-orphans
+            $DOCKER_SUDO docker image prune -f || true
+            $DOCKER_SUDO $COMPOSE_CMD ps
 
             # --- health check ---
             DOMAIN_VAL=$(grep '^DOMAIN=' .env | cut -d'=' -f2- || true)
@@ -92,7 +106,7 @@ jobs:
               echo "[deploy] attempt $i ko -> wait"; sleep 5
             done
             echo "[deploy] FAIL health" >&2
-            $COMPOSE_CMD logs --tail=150 || true
+            $DOCKER_SUDO $COMPOSE_CMD logs --tail=150 || true
             exit 1
 
       - name: Summary
