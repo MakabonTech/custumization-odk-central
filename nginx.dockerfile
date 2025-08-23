@@ -34,7 +34,8 @@ COPY files/nginx/setup-odk.sh \
 COPY files/nginx/redirector.conf /usr/share/odk/nginx/
 COPY files/nginx/common-headers.conf /usr/share/odk/nginx/
 COPY files/nginx/robots.txt /usr/share/nginx/html
-COPY --from=intermediate client/dist/ /usr/share/nginx/html
+# Frontend désactivé temporairement (client/dist absent)
+# COPY --from=intermediate client/dist/ /usr/share/nginx/html
 COPY --from=intermediate /tmp/version.txt /usr/share/nginx/html
 
 ENTRYPOINT [ "/scripts/setup-odk.sh" ]
