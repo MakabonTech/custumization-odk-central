@@ -3,7 +3,7 @@ name: deploy
 on:
   push:
     branches:
-      - develop            # adapter si autre branche de déploiement
+      - develop   # adapter si autre branche de déploiement
 
 concurrency:
   group: deploy-production
@@ -16,11 +16,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      REPO_URL: https://github.com/MakabonTech/custumization-odk-central.git
-      DEPLOY_BRANCH: develop
-      APP_DIR: /opt/central
-      DOMAIN: ${{ secrets.DOMAIN }}
     steps:
       - name: Checkout (shallow)
         uses: actions/checkout@v4
@@ -33,6 +28,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.VPS_PORT }} # facultatif si différent de 22
           script_stop: true
           script: |
             set -euo pipefail
@@ -78,7 +74,6 @@ jobs:
             if [ -z "$DOMAIN_VAL" ]; then
               echo "[deploy] skip health (DOMAIN absent)"; exit 0;
             fi
-            # http (laisser https si cert déjà configuré)
             BASE_URL="http://$DOMAIN_VAL"
             TARGET="$BASE_URL/version.txt"
             echo "[deploy] health check $TARGET"
@@ -89,6 +84,11 @@ jobs:
             echo "[deploy] FAIL health" >&2
             docker compose logs --tail=150 || true
             exit 1
+        envs: |
+          REPO_URL=https://github.com/MakabonTech/custumization-odk-central.git
+          DEPLOY_BRANCH=develop
+          APP_DIR=/opt/central
+          DOMAIN=${{ secrets.DOMAIN }}
 
       - name: Summary
         run: echo "Deployed $GITHUB_SHA to $GITHUB_REF"
