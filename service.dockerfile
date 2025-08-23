@@ -85,9 +85,14 @@ RUN apt-get update \
         netcat-traditional \
     && rm -rf /var/lib/apt/lists/*
 
-# Installer les dépendances Node.js du backend
-RUN npm clean-install --omit=dev --no-audit \
-    --fund=false --update-notifier=false
+# Installer les dépendances Node.js du backend (tolère absence de lock)
+RUN if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then \
+            echo '[build] lockfile présent -> npm ci'; \
+            npm ci --omit=dev --no-audit --fund=false --update-notifier=false; \
+        else \
+            echo '[build] lockfile absent -> npm install'; \
+            npm install --omit=dev --no-audit --fund=false --update-notifier=false; \
+        fi
 
 # Copier le code serveur
 COPY server/ ./
