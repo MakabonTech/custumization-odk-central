@@ -2,6 +2,7 @@
 set -o pipefail
 shopt -s inherit_errexit
 
+# Construction toujours à partir de client/ (personnalisation locale)
 cd client
 
 if [[ ${SKIP_FRONTEND_BUILD-} != "" ]]; then

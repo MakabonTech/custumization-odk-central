@@ -1,0 +1,52 @@
+{
+  "default": {
+    "database": {
+      "host": "localhost",
+      "user": "jubilant",
+      "password": "jubilant",
+      "database": "jubilant"
+    },
+    "server": {
+      "port": 8383
+    },
+    "email": {
+      "serviceAccount": "no-reply@getodk.org",
+      "transport": "json"
+    },
+    "xlsform": {
+      "host": "localhost",
+      "port": 5001
+    },
+    "enketo": {
+      "url": "http://localhost:8005/-",
+      "apiKey": "enketorules"
+    },
+    "env": {
+      "domain": "http://localhost:8989",
+      "sysadminAccount": "no-reply@getodk.org"
+    },
+    "external": {
+      "sentry": {},
+      "analytics": {
+        "url": "https://data.getodk.cloud/v1/key/eOZ7S4bzyUW!g1PF6dIXsnSqktRuewzLTpmc6ipBtRq$LDfIMTUKswCexvE0UwJ9/projects/1/forms/odk-analytics/submissions",
+        "formId": "odk-analytics",
+        "version": "v2025.2.0_1"
+      },
+      "s3blobStore": {}
+    }
+  },
+  "test": {
+    "database": {
+      "host": "localhost",
+      "user": "jubilant",
+      "password": "jubilant",
+      "database": "jubilant_test"
+    },
+    "email": {
+      "serviceAccount": "no-reply@getodk.org",
+      "transport": "json",
+      "transportOpts": { "newline": "unix" }
+    }
+  }
+}
+
