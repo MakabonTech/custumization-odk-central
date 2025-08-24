@@ -1,0 +1,11 @@
+{
+  "default": {
+    "oidc": {
+      "_description": "google: sample config. Insert your Google OAuth credentials via environment (OIDC_CLIENT_ID / OIDC_CLIENT_SECRET) not in Git.",
+      "issuerUrl": "https://accounts.google.com",
+      "clientId": "GOOGLE_OAUTH_CLIENT_ID_PLACEHOLDER",
+      "clientSecret": "GOOGLE_OAUTH_CLIENT_SECRET_PLACEHOLDER",
+      "enabled": true
+    }
+  }
+}

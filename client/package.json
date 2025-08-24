@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "echo 'placeholder build (ajoute tes sources client réelles)' && mkdir -p dist && echo '<html><body><h1>Placeholder Frontend</h1></body></html>' > dist/index.html"
+    "build": "vite build"
   },
   "volta": {
     "node": "22.12.0"
